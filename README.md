@@ -1,9 +1,9 @@
-# 🥗 n8n Food Nutrition Analyzer
+#n8n Food Nutrition Analyzer
 
 This project is an n8n workflow that classifies foods as healthy or unhealthy 
 and automatically processes them using automation logic.
 
-## 🚀 Features
+## Features
 - Processes a structured food array
 - Loops through each item
 - Uses conditional logic (IF node)
@@ -19,6 +19,6 @@ and automatically processes them using automation logic.
 
 
 
-## 📌 Purpose
+## Purpose
 This workflow demonstrates data processing, automation logic,
 and structured array handling inside n8n.
