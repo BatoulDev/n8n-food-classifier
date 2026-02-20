@@ -1,0 +1,478 @@
+{
+  "name": "Food Nutrition Analyzer",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        608
+      ],
+      "id": "af02e7fa-f79d-4cf1-92e3-fbbc11fc4df4",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0829bbab-832a-444b-8b25-1025d86bcef9",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        928,
+        -16
+      ],
+      "id": "c80322a0-a639-46ee-8334-c85aa5370912",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d8df9f44-5093-4737-8f6c-2c9836114fb5",
+              "name": "food",
+              "value": "[\"Eggs\", \"Broccoli\", \"Oats\", \"Dark Chocolate\"]",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "2e056332-dd2c-4df5-8cfb-dc6c02445cb7",
+      "name": "Set Food Input"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "food",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "b13602d7-8fa6-4620-ad39-f2839e17f2d7",
+      "name": "Split Food Items"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        624,
+        0
+      ],
+      "id": "56b0d35e-c68e-424f-b921-2c14787925a2",
+      "name": "Process Each Food"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a highly knowledgeable nutritionist and food science expert.\n\nYou specialize in:\n- Human nutrition\n- Brain health\n- Body performance\n- Scientific food benefits\n- Metabolism and digestion\n\nThe user will send a food name.\n\nFor the food:{{ $json.food }}\n\nProvide:\n\n1) Exactly 5 scientifically accurate health benefits.\n2) Exactly 5 possible disadvantages, risks, or negative effects.\n\nRules:\n- Be specific and professional.\n- Use short bullet points.\n- No long paragraphs.\n- Do not repeat points.\n- Keep it clear and structured.\n- Separate clearly into:\n  ✅ Benefits\n  ❌ Disadvantages\n\nAnswer directly without extra commentary.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        832,
+        176
+      ],
+      "id": "8aab487d-e3f9-4137-8e30-9848099e946d",
+      "name": "Nutrition AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        704,
+        304
+      ],
+      "id": "5370c65a-e98c-408d-8b20-1092a9cc665d",
+      "name": "GPT Nutrition Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "FOyt8lmzygjunRfj",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "da0e92d7-4456-4adb-83bc-156fcd13d26e",
+              "name": "food",
+              "value": "[   { \"name\": \"Apple\", \"status\": \"healthy\" },   { \"name\": \"Banana\", \"status\": \"healthy\" },   { \"name\": \"Broccoli\", \"status\": \"healthy\" },   { \"name\": \"Carrots\", \"status\": \"healthy\" },   { \"name\": \"Spinach\", \"status\": \"healthy\" },   { \"name\": \"Salmon\", \"status\": \"healthy\" },   { \"name\": \"Tuna\", \"status\": \"healthy\" },   { \"name\": \"Eggs\", \"status\": \"healthy\" },   { \"name\": \"Oats\", \"status\": \"healthy\" },   { \"name\": \"Brown Rice\", \"status\": \"healthy\" },   { \"name\": \"Quinoa\", \"status\": \"healthy\" },   { \"name\": \"Almonds\", \"status\": \"healthy\" },   { \"name\": \"Walnuts\", \"status\": \"healthy\" },   { \"name\": \"Chia Seeds\", \"status\": \"healthy\" },   { \"name\": \"Greek Yogurt\", \"status\": \"healthy\" },   { \"name\": \"Avocado\", \"status\": \"healthy\" },   { \"name\": \"Sweet Potato\", \"status\": \"healthy\" },   { \"name\": \"Lentils\", \"status\": \"healthy\" },   { \"name\": \"Chickpeas\", \"status\": \"healthy\" },   { \"name\": \"Green Tea\", \"status\": \"healthy\" },   { \"name\": \"Orange\", \"status\": \"healthy\" },   { \"name\": \"Strawberries\", \"status\": \"healthy\" },   { \"name\": \"Blueberries\", \"status\": \"healthy\" },   { \"name\": \"Tomatoes\", \"status\": \"healthy\" },   { \"name\": \"Cucumber\", \"status\": \"healthy\" },   { \"name\": \"French Fries\", \"status\": \"unhealthy\" },   { \"name\": \"Burger\", \"status\": \"unhealthy\" },   { \"name\": \"Pizza\", \"status\": \"unhealthy\" },   { \"name\": \"Fried Chicken\", \"status\": \"unhealthy\" },   { \"name\": \"Hot Dog\", \"status\": \"unhealthy\" },   { \"name\": \"Donut\", \"status\": \"unhealthy\" },   { \"name\": \"Ice Cream\", \"status\": \"unhealthy\" },   { \"name\": \"Chocolate Bar\", \"status\": \"unhealthy\" },   { \"name\": \"Candy\", \"status\": \"unhealthy\" },   { \"name\": \"Soda\", \"status\": \"unhealthy\" },   { \"name\": \"Energy Drink\", \"status\": \"unhealthy\" },   { \"name\": \"White Bread\", \"status\": \"unhealthy\" },   { \"name\": \"Processed Meat\", \"status\": \"unhealthy\" },   { \"name\": \"Chips\", \"status\": \"unhealthy\" },   { \"name\": \"Nachos\", \"status\": \"unhealthy\" },   { \"name\": \"Milkshake\", \"status\": \"unhealthy\" },   { \"name\": \"Sugary Cereal\", \"status\": \"unhealthy\" },   { \"name\": \"Cake\", \"status\": \"unhealthy\" },   { \"name\": \"Cupcake\", \"status\": \"unhealthy\" },   { \"name\": \"Pancakes (with syrup)\", \"status\": \"unhealthy\" },   { \"name\": \"Fried Fish\", \"status\": \"unhealthy\" },   { \"name\": \"Mac and Cheese\", \"status\": \"unhealthy\" },   { \"name\": \"Processed Sausage\", \"status\": \"unhealthy\" },   { \"name\": \"Butter Croissant\", \"status\": \"unhealthy\" },   { \"name\": \"Sugary Coffee Drink\", \"status\": \"unhealthy\" } ]",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -96,
+        608
+      ],
+      "id": "d93b8622-4ee0-4f5d-9a2e-12c68f1c7a7a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "food",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        112,
+        608
+      ],
+      "id": "b09de200-fa94-4f47-9f73-12cfcbd6fba3",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "batchSize": 10,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        320,
+        608
+      ],
+      "id": "28020fbf-87a1-4c96-8666-ccd04c508abe",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "638feeb4-2d9b-42f6-8f32-c38f0280cb93",
+              "leftValue": "={{$json.status}}",
+              "rightValue": "healthy",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        560,
+        800
+      ],
+      "id": "2ac79105-6ae3-421a-97db-c8de550651a1",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1d3cx6Or530BBBQVKAYMOptmpvJeV-oEuqF-ULQdEdJg",
+          "mode": "list",
+          "cachedResultName": "food nutrition classifier",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1d3cx6Or530BBBQVKAYMOptmpvJeV-oEuqF-ULQdEdJg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "food",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1d3cx6Or530BBBQVKAYMOptmpvJeV-oEuqF-ULQdEdJg/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "food": "={{ $json.name }}",
+            "healthy": "={{ $json.status }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "food",
+              "displayName": "food",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "healthy",
+              "displayName": "healthy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        768,
+        704
+      ],
+      "id": "1eb48438-36a8-49d8-a54f-3e42b5eb8fbd",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "s0ITixFyUhj6vEI1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1152,
+        880
+      ],
+      "id": "ed8a2a03-fc43-4064-a93b-9df7683de8fd",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1360,
+        880
+      ],
+      "id": "a38ea38b-4017-49d7-8019-0898466e0e04",
+      "name": "Wait",
+      "webhookId": "dd198e95-315e-4b83-9ecf-2ca13ddfc808"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Food Input": {
+      "main": [
+        [
+          {
+            "node": "Split Food Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Food Items": {
+      "main": [
+        [
+          {
+            "node": "Process Each Food",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Each Food": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Nutrition AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nutrition AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Process Each Food",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT Nutrition Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Nutrition AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "de0411fe-15a6-4bff-9e42-9590a4a262d9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "788588a845777cd319fa9655e4e1b96573b8e9b75b00d24b99a8c8193600abe5"
+  },
+  "id": "0BinsTFAqCO-AIwczmCIO",
+  "tags": []
+}
